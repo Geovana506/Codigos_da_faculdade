@@ -179,19 +179,9 @@ public class FormCadastroLivro extends JFrame {
         btnSair = new JButton("Sair");
 
         // Adicionar listeners aos botões
-        btnSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                salvarLivro();
-            }
-        });
+        btnSalvar.addActionListener(e -> salvarLivro());
 
-        btnLimpar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                limparCampos();
-            }
-        });
+        btnLimpar.addActionListener(e -> limparCampos());
 
         btnSair.addActionListener(new ActionListener() {
             @Override
@@ -239,7 +229,10 @@ public class FormCadastroLivro extends JFrame {
             Integer.parseInt(txtId.getText().trim());
             Integer.parseInt(txtEdicao.getText().trim());
             Integer.parseInt(txtAnoPublicacao.getText().trim());
-            Integer.parseInt(txtNumeroPaginas.getText().trim());
+            // Apenas valida se é número, não precisa armazenar o resultado
+            if (txtNumeroPaginas.getText().trim().isEmpty() || !txtNumeroPaginas.getText().trim().matches("\\d+")) {
+                throw new NumberFormatException();
+            }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
                     "Os campos ID, Edição, Ano de Publicação e Número de Páginas devem conter apenas números!",
@@ -298,19 +291,21 @@ public class FormCadastroLivro extends JFrame {
         String dataHora = agora.format(formatter);
 
         // Criar o conteúdo a ser salvo
-        String conteudo = String.format(
-                "=== LIVRO CADASTRADO ===\n" +
-                        "Data/Hora: %s\n" +
-                        "ID: %s\n" +
-                        "Nome: %s\n" +
-                        "Resenha: %s\n" +
-                        "Edição: %s\n" +
-                        "Ano de Publicação: %s\n" +
-                        "Número de Páginas: %s\n" +
-                        "Autor: %s\n" +
-                        "Editora: %s\n" +
-                        "Tipo de Capa: %s\n" +
-                        "=========================\n\n",
+        String conteudo = String.format("""
+                === LIVRO CADASTRADO ===
+                Data/Hora: %s
+                ID: %s
+                Nome: %s
+                Resenha: %s
+                Edição: %s
+                Ano de Publicação: %s
+                Número de Páginas: %s
+                Autor: %s
+                Editora: %s
+                Tipo de Capa: %s
+                =========================
+
+                """,
                 dataHora,
                 livro.getId(),
                 livro.getNome(),

@@ -1,11 +1,9 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.*;
 
 public class FormCadastroAutor extends JFrame {
 
@@ -85,26 +83,11 @@ public class FormCadastroAutor extends JFrame {
         btnSair = new JButton("Sair");
 
         // Adicionar listeners aos botões
-        btnSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                salvarAutor();
-            }
-        });
+        btnSalvar.addActionListener(e -> salvarAutor());
 
-        btnLimpar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                limparCampos();
-            }
-        });
+        btnLimpar.addActionListener(e -> limparCampos());
 
-        btnSair.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        btnSair.addActionListener(e -> dispose());
 
         painelBotoes.add(btnSalvar);
         painelBotoes.add(btnLimpar);
@@ -136,7 +119,10 @@ public class FormCadastroAutor extends JFrame {
 
         // Validar se o ID é um número válido
         try {
-            Integer.parseInt(txtId.getText().trim());
+            // Apenas valida se o ID é um número válido, sem criar uma variável temporária
+            if (txtId.getText().trim().isEmpty() || !txtId.getText().trim().matches("\\d+")) {
+                throw new NumberFormatException();
+            }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
                     "O campo ID deve conter apenas números!",
@@ -174,13 +160,15 @@ public class FormCadastroAutor extends JFrame {
         String dataHora = agora.format(formatter);
 
         // Criar o conteúdo a ser salvo
-        String conteudo = String.format(
-                "=== AUTOR CADASTRADO ===\n" +
-                        "Data/Hora: %s\n" +
-                        "ID: %s\n" +
-                        "Nome: %s\n" +
-                        "Cidade: %s\n" +
-                        "========================\n\n",
+        String conteudo = String.format("""
+                === AUTOR CADASTRADO ===
+                Data/Hora: %s
+                ID: %s
+                Nome: %s
+                Cidade: %s
+                ========================
+                
+                """,
                 dataHora,
                 autor.getId(),
                 autor.getNome(),

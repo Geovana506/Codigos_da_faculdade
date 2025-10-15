@@ -3,11 +3,8 @@ import javax.swing.SwingUtilities;
 public class App {
     public static void main(String[] args) throws Exception {
         // Criar e exibir a tela
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new TelaPrincipal();// FormCadastroLivro();// FormCadastroAutor();
-            }
+        SwingUtilities.invokeLater(() -> {
+            new TelaPrincipal();// FormCadastroLivro();// FormCadastroAutor();
         });
         // Autor maria = new Autor(1, "Maria José", "Goiania");
         // Autor jose = new Autor(1, "José Maria", "Jataí");

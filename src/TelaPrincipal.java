@@ -1,7 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class TelaPrincipal extends JFrame {
 
@@ -31,35 +29,31 @@ public class TelaPrincipal extends JFrame {
 
         // Criar submenu "Autor"
         JMenuItem menuItemAutor = new JMenuItem("Autor");
-        menuItemAutor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                abrirFormularioAutor();
-            }
-        });
+        menuItemAutor.addActionListener(e -> abrirFormularioAutor());
+
+        // Criar submenu "Editora"
+        JMenuItem menuItemEditora = new JMenuItem("Editora");
+        menuItemEditora.addActionListener(e -> abrirFormularioEditora());
+
+        // Criar submenu "Tipo de Capa" (NOVA ADIÇÃO)
+        JMenuItem menuItemTipoCapa = new JMenuItem("Tipo de Capa");
+        menuItemTipoCapa.addActionListener(e -> abrirFormularioTipoCapa()); // Chama o novo método
 
         // Criar submenu "Livro"
         JMenuItem menuItemLivro = new JMenuItem("Livro");
-        menuItemLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                abrirFormularioLivro();
-            }
-        });
+        menuItemLivro.addActionListener(e -> abrirFormularioLivro());
 
         // Adicionar itens ao menu Cadastros
         menuCadastros.add(menuItemAutor);
+        menuCadastros.add(menuItemEditora);
+        menuCadastros.add(menuItemTipoCapa); // Adicionado ao menu
+        menuCadastros.addSeparator(); // Separador para organizar melhor
         menuCadastros.add(menuItemLivro);
 
         // Criar menu "Ajuda"
         JMenu menuAjuda = new JMenu("Ajuda");
         JMenuItem menuItemSobre = new JMenuItem("Sobre");
-        menuItemSobre.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarSobre();
-            }
-        });
+        menuItemSobre.addActionListener(e -> mostrarSobre());
         menuAjuda.add(menuItemSobre);
 
         // Adicionar menus à barra de menu
@@ -96,9 +90,9 @@ public class TelaPrincipal extends JFrame {
         gbc.gridy = 1;
         painelBoasVindas.add(lblSubtitulo, gbc);
 
-        // Instruções
+        // Instruções (ATUALIZADAS)
         JLabel lblInstrucoes = new JLabel(
-                "<html><center>Use o menu 'Cadastros' para acessar:<br>• Cadastro de Autores<br>• Cadastro de Livros</center></html>");
+                "<html><center>Use o menu 'Cadastros' para acessar:<br>• Cadastro de Autores<br>• Cadastro de Editoras<br>• Cadastro de Tipos de Capa<br>• Cadastro de Livros</center></html>");
         lblInstrucoes.setFont(new Font("Arial", Font.PLAIN, 14));
         lblInstrucoes.setForeground(new Color(100, 100, 100));
         gbc.gridy = 2;
@@ -116,12 +110,26 @@ public class TelaPrincipal extends JFrame {
         btnCadastroAutor.setBackground(new Color(70, 130, 180));
         btnCadastroAutor.setForeground(Color.WHITE);
         btnCadastroAutor.setFocusPainted(false);
-        btnCadastroAutor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                abrirFormularioAutor();
-            }
-        });
+        btnCadastroAutor.addActionListener(e -> abrirFormularioAutor());
+
+        // Botão para Cadastro de Editora
+        JButton btnCadastroEditora = new JButton("Cadastrar Editora");
+        btnCadastroEditora.setPreferredSize(new Dimension(150, 40));
+        btnCadastroEditora.setFont(new Font("Arial", Font.BOLD, 12));
+        btnCadastroEditora.setBackground(new Color(255, 140, 0)); 
+        btnCadastroEditora.setForeground(Color.WHITE);
+        btnCadastroEditora.setFocusPainted(false);
+        btnCadastroEditora.addActionListener(e -> abrirFormularioEditora());
+
+        // Botão para Cadastro de Tipo de Capa (NOVA ADIÇÃO)
+        JButton btnCadastroTipoCapa = new JButton("Cadastrar Tipo Capa");
+        btnCadastroTipoCapa.setPreferredSize(new Dimension(150, 40));
+        btnCadastroTipoCapa.setFont(new Font("Arial", Font.BOLD, 12));
+        btnCadastroTipoCapa.setBackground(new Color(147, 112, 219)); // Roxo claro
+        btnCadastroTipoCapa.setForeground(Color.WHITE);
+        btnCadastroTipoCapa.setFocusPainted(false);
+        btnCadastroTipoCapa.addActionListener(e -> abrirFormularioTipoCapa());
+
 
         // Botão para Cadastro de Livro
         JButton btnCadastroLivro = new JButton("Cadastrar Livro");
@@ -130,14 +138,11 @@ public class TelaPrincipal extends JFrame {
         btnCadastroLivro.setBackground(new Color(60, 179, 113));
         btnCadastroLivro.setForeground(Color.WHITE);
         btnCadastroLivro.setFocusPainted(false);
-        btnCadastroLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                abrirFormularioLivro();
-            }
-        });
+        btnCadastroLivro.addActionListener(e -> abrirFormularioLivro());
 
         painelBotoes.add(btnCadastroAutor);
+        painelBotoes.add(btnCadastroEditora);
+        painelBotoes.add(btnCadastroTipoCapa); // Adicionado ao painel de botões
         painelBotoes.add(btnCadastroLivro);
 
         gbc.gridy = 3;
@@ -163,22 +168,31 @@ public class TelaPrincipal extends JFrame {
     }
 
     private void abrirFormularioAutor() {
-        // Criar nova instância do formulário de autor
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new FormCadastroAutor();
-            }
+        SwingUtilities.invokeLater(() -> {
+             // CORRIGIDO: Instancia a classe real
+             new FormCadastroAutor(); 
+        });
+    }
+
+    private void abrirFormularioEditora() {
+        SwingUtilities.invokeLater(() -> {
+            new FormCadastroEditora(); 
+        });
+    }
+    
+    /**
+     * NOVO MÉTODO: Abre o formulário de cadastro de Tipo de Capa.
+     */
+    private void abrirFormularioTipoCapa() {
+        SwingUtilities.invokeLater(() -> {
+            new FormCadastroTipoCapa(); 
         });
     }
 
     private void abrirFormularioLivro() {
-        // Criar nova instância do formulário de livro
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new FormCadastroLivro();
-            }
+        SwingUtilities.invokeLater(() -> {
+             // CORRIGIDO: Instancia a classe real
+             new FormCadastroLivro();
         });
     }
 
@@ -187,9 +201,14 @@ public class TelaPrincipal extends JFrame {
                 "Versão 1.0\n\n" +
                 "Desenvolvido para gerenciar cadastros de:\n" +
                 "• Autores\n" +
+                "• Editoras\n" +
+                "• Tipos de Capa\n" + // Atualizado
                 "• Livros\n\n" +
                 "© 2025 - Sistema de Biblioteca";
         JOptionPane.showMessageDialog(this, mensagem, "Sobre o Sistema", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(TelaPrincipal::new);
+    }
 }
