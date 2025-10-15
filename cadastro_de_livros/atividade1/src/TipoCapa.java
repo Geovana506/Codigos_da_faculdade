@@ -1,37 +1,64 @@
 public class TipoCapa {
-    private Integer id;
-    private String descricao;  
+    private int id;
+    private String nome;
 
+    /**
+     * 
+     */
     public TipoCapa() {
     }
-    public TipoCapa(Integer id, String descricao) {
+
+    /**
+     * @param id
+     * @param nome
+     */
+    public TipoCapa(int id, String nome) {
         this.id = id;
-        this.descricao = descricao;
-    }
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public String getDescricao() {
-        return descricao;
+        this.nome = nome;
     }
 
-    
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
     }
-    public void salvar () {
-        System.out.println("Tipo de capa salvo com sucesso!");
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
-    public void alterar () {
-        System.out.println("Tipo de capa alterado com sucesso!");
+
+    /**
+     * @return the nome
+     */
+    public String getNome() {
+        return nome;
     }
-    public void excluir () {
-        System.out.println("Tipo de capa excluído com sucesso!");
+
+    /**
+     * @param nome the nome to set
+     */
+    public void setNome(String nome) {
+        this.nome = nome;
     }
-    public void pesquisar () {
-        System.out.println("Tipo de capa pesquisado com sucesso!");
+
+    public void salvar() {
+        System.out.println("TipoCapa salvo com sucesso!");
     }
+
+    public void excluir() {
+        System.out.println("TipoCapa excluído com sucesso!");
+    }
+
+    public void atualizar() {
+        System.out.println("TipoCapa atualizado com sucesso!");
+    }
+
+    public void buscar() {
+        System.out.println("TipoCapa buscado com sucesso!");
+    }
+
 }

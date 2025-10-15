@@ -1,93 +1,194 @@
 public class Livro {
-    private Integer id;
+    private int id;
     private String nome;
     private String resenha;
-    private Integer edicao;
-    private Integer ano_publicacao;
-    private Integer n_paginas;
+    private int edicao;
+    private int anoPublicacao;
+    private int numeroPaginas;
     private Autor autor;
     private Editora editora;
     private TipoCapa tipoCapa;
 
+    /**
+     * 
+     */
     public Livro() {
     }
-    public Livro(Integer id, String nome, String resenha, Integer edicao, Integer ano_publicacao, Integer n_paginas, Autor autor, Editora editora, TipoCapa tipoCapa) {
+
+    /**
+     * @param id
+     * @param nome
+     * @param resenha
+     * @param edicao
+     * @param anoPublicacao
+     * @param numeroPaginas
+     * @param autor
+     * @param editora
+     * @param tipoCapa
+     */
+    public Livro(int id, String nome, String resenha, int edicao, int anoPublicacao, int numeroPaginas, Autor autor,
+            Editora editora, TipoCapa tipoCapa) {
         this.id = id;
         this.nome = nome;
         this.resenha = resenha;
         this.edicao = edicao;
-        this.ano_publicacao = ano_publicacao;
-        this.n_paginas = n_paginas;
+        this.anoPublicacao = anoPublicacao;
+        this.numeroPaginas = numeroPaginas;
         this.autor = autor;
         this.editora = editora;
         this.tipoCapa = tipoCapa;
     }
-    public Integer getId() {
+
+    /**
+     * @return the id
+     */
+    public int getId() {
         return id;
     }
-    public void setId(Integer id) {
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
         this.id = id;
     }
+
+    /**
+     * @return the nome
+     */
     public String getNome() {
-        return nome;
+        return this.nome;
     }
+
+    /**
+     * @param nome the nome to set
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    /**
+     * @return the resenha
+     */
     public String getResenha() {
         return resenha;
     }
+
+    /**
+     * @param resenha the resenha to set
+     */
     public void setResenha(String resenha) {
         this.resenha = resenha;
     }
-    public Integer getEdicao() {
+
+    /**
+     * @return the edicao
+     */
+    public int getEdicao() {
         return edicao;
     }
-    public void setEdicao(Integer edicao) {
+
+    /**
+     * @param edicao the edicao to set
+     */
+    public void setEdicao(int edicao) {
         this.edicao = edicao;
     }
-    public Integer getAno_publicacao() {
-        return ano_publicacao;
+
+    /**
+     * @return the anoPublicacao
+     */
+    public int getAnoPublicacao() {
+        return anoPublicacao;
     }
-    public void setAno_publicacao(Integer ano_publicacao) {
-        this.ano_publicacao = ano_publicacao;
+
+    /**
+     * @param anoPublicacao the anoPublicacao to set
+     */
+    public void setAnoPublicacao(int anoPublicacao) {
+        this.anoPublicacao = anoPublicacao;
     }
-    public Integer getN_paginas() {
-        return n_paginas;
+
+    /**
+     * @return the numeroPaginas
+     */
+    public int getNumeroPaginas() {
+        return numeroPaginas;
     }
-    public void setN_paginas(Integer n_paginas) {
-        this.n_paginas = n_paginas;
+
+    /**
+     * @param numeroPaginas the numeroPaginas to set
+     */
+    public void setNumeroPaginas(int numeroPaginas) {
+        this.numeroPaginas = numeroPaginas;
     }
+
+    /**
+     * @return the autor
+     */
     public Autor getAutor() {
         return autor;
     }
+
+    /**
+     * @param autor the autor to set
+     */
     public void setAutor(Autor autor) {
         this.autor = autor;
     }
+
+    /**
+     * @return the editora
+     */
     public Editora getEditora() {
         return editora;
     }
+
+    /**
+     * @param editora the editora to set
+     */
     public void setEditora(Editora editora) {
         this.editora = editora;
     }
+
+    /**
+     * @return the tipoCapa
+     */
     public TipoCapa getTipoCapa() {
         return tipoCapa;
     }
+
+    /**
+     * @param tipoCapa the tipoCapa to set
+     */
     public void setTipoCapa(TipoCapa tipoCapa) {
         this.tipoCapa = tipoCapa;
     }
 
-    
-    public void salvar () {
-        System.out.println("Livro salvo com sucesso!");
+    public void salvar() {
+        System.out.println("----- Dados do livro salvo -----");
+        System.out.println("ID: " + getId());
+        System.out.println("Nome: " + getNome());
+        System.out.println("Resenha: " + getResenha());
+        System.out.println("Edição: " + getEdicao());
+        System.out.println("Ano de Publicação: " + getAnoPublicacao());
+        System.out.println("Número de Páginas: " + getNumeroPaginas());
+        System.out.println("Autor: " + getAutor().getNome());
+        System.out.println("Editora: " + getEditora().getNome());
+        System.out.println("Tipo de Capa: " + getTipoCapa().getNome());
+        System.out.println("------- Livro salvo com sucesso! -------");
     }
-    public void alterar () {
-        System.out.println("Livro alterado com sucesso!");
-    }
-    public void excluir () {
+
+    public void excluir() {
         System.out.println("Livro excluído com sucesso!");
     }
-    public void pesquisar () {
-        System.out.println("Livro pesquisado com sucesso!");
+
+    public void atualizar() {
+        System.out.println("Livro atualizado com sucesso!");
     }
+
+    public void buscar() {
+        System.out.println("Livro buscado com sucesso!");
+    }
+
 }

@@ -1,45 +1,31 @@
-public class Autor {
-    private Integer id;
-    private String nome;
+public class Autor extends ClasseGenerica {
     private String cidade;
 
     public Autor() {
     }
-    public Autor(Integer id, String nome, String cidade) {
-        this.id = id;
-        this.nome = nome;
+
+    public Autor(int id, String nome, String cidade) {
+        super(id, nome);
         this.cidade = cidade;
     }
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+
+    /**
+     * @return the cidade
+     */
     public String getCidade() {
         return cidade;
     }
+
+    /**
+     * @param cidade the cidade to set
+     */
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
 
-    
-    public void salvar () {
-        System.out.println("Autor salvo com sucesso!");
+    @Override
+    public void salvar() {
+        System.out.println("Autor salvo com sucesso");
     }
-    public void alterar () {
-        System.out.println("Autor alterado com sucesso!");
-    }
-    public void excluir () {
-        System.out.println("Autor excluído com sucesso!");
-    }
-    public void pesquisar () {
-        System.out.println("Autor pesquisado com sucesso!");
-    }
+
 }
