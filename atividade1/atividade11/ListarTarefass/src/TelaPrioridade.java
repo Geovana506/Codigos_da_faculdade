@@ -1,73 +1,128 @@
 import java.awt.*;
+import java.sql.*;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
 public class TelaPrioridade extends JFrame {
-
     private JTextField txtId;
     private JTextField txtDescricao;
-    private JTable tabelaPrioridades;
+    private JButton btnSalvar;
+    private JButton btnAlterar;
+    private JButton btnExcluir;
+    private JButton btnPesquisar;
+    private JButton btnSair;
 
-    public TelaPrioridade() {
-        super("Gerenciamento de Prioridades");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Fecha apenas esta janela
-        setSize(600, 400);
+    public TelaPrioridade(){
+        setTitle("Cadastro de Prioridade");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(400,250);
         setLocationRelativeTo(null);
+        setVisible(true);
 
-        // Layout Principal: BorderLayout para separar Formulário/Botões e Tabela
-        setLayout(new BorderLayout(10, 10));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // --- Painel Superior (Formulário e Ações) ---
-        JPanel pnlSuperior = new JPanel(new BorderLayout(10, 10));
+        //Campo ID
+        JLabel lblId = new JLabel("ID:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(lblId, gbc);
+        txtId = new JTextField();
+        gbc.gridx = 1; 
+        gbc.gridy = 0;
+        add(txtId, gbc);
 
-        // Formulário (GridLayout 2x2)
-        JPanel pnlFormulario = new JPanel(new GridLayout(2, 2, 5, 5));
-        txtId = new JTextField(5);
-        txtId.setEditable(false); // ID somente leitura
-        txtDescricao = new JTextField(20);
+        // Campo Descrição
+        JLabel lblDescricao = new JLabel("Descrição:");
+        gbc.gridx = 0; 
+        gbc.gridy = 1;
+        add(lblDescricao, gbc);
+        txtDescricao = new JTextField();
+        gbc.gridx = 1; 
+        gbc.gridy = 1;
+        add(txtDescricao, gbc);
 
-        pnlFormulario.add(new JLabel("ID:"));
-        pnlFormulario.add(txtId);
-        pnlFormulario.add(new JLabel("Descrição:"));
-        pnlFormulario.add(txtDescricao);
+        // Painel de Botões
+        JPanel painelBotoes = new JPanel();
+        btnSalvar = new JButton("Salvar");
+        btnPesquisar = new JButton("Pesquisar");
+        btnAlterar = new JButton("Alterar");
+        btnExcluir = new JButton("Excluir");
+        btnSair = new JButton("Sair");
 
-        // Botões de Ação (FlowLayout)
-        JPanel pnlBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        JButton btnSalvar = new JButton("Salvar");
-        JButton btnExcluir = new JButton("Excluir");
-        JButton btnLimpar = new JButton("Limpar Campos");
-        pnlBotoes.add(btnSalvar);
-        pnlBotoes.add(btnExcluir);
-        pnlBotoes.add(btnLimpar);
+        painelBotoes.add(btnSalvar);
+        painelBotoes.add(btnPesquisar);
+        painelBotoes.add(btnAlterar);
+        painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnSair);
 
-        // Adiciona Formulário e Botões ao Painel Superior
-        pnlSuperior.add(pnlFormulario, BorderLayout.NORTH);
-        pnlSuperior.add(pnlBotoes, BorderLayout.CENTER);
-        add(pnlSuperior, BorderLayout.NORTH);
+        gbc.gridwidth = 2;
+        gbc.gridx = 0; 
+        gbc.gridy = 6;
+        add(painelBotoes, gbc);
 
+        btnSalvar.addActionListener(e -> salvarPrioridade());
+        btnPesquisar.addActionListener(e -> pesquisarPrioridade());
+        btnAlterar.addActionListener(e -> alterarPrioridade());
+        btnExcluir.addActionListener(e -> excluirPrioridade());
+        btnSair.addActionListener(e -> dispose());
 
-        // --- Pesquisa e Listagem (Centro) ---
-        JPanel pnlListagem = new JPanel(new BorderLayout(5, 5));
-
-        // Painel de Pesquisa
-        JPanel pnlPesquisa = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField txtPesquisa = new JTextField(15);
-        JButton btnPesquisar = new JButton("Pesquisar");
-        pnlPesquisa.add(new JLabel("Buscar Descrição:"));
-        pnlPesquisa.add(txtPesquisa);
-        pnlPesquisa.add(btnPesquisar);
-        pnlListagem.add(pnlPesquisa, BorderLayout.NORTH);
-
-        // Tabela de Resultados
-        String[] colunas = {"ID", "Descrição"};
-        DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
-        tabelaPrioridades = new JTable(modeloTabela);
-        JScrollPane scrollPane = new JScrollPane(tabelaPrioridades);
-        pnlListagem.add(scrollPane, BorderLayout.CENTER);
-
-        add(pnlListagem, BorderLayout.CENTER);
     }
 
-    // Ações para os botões (apenas placeholders)
-    // Os métodos salvar(), alterar(), excluir() e pesquisar() seriam implementados aqui.
+    private void salvarPrioridade() {
+    try (Connection conn = Conexao.connect()) {
+        String sql = "INSERT INTO prioridade (id, descricao) VALUES (?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, Integer.parseInt(txtId.getText()));
+        stmt.setString(2, txtDescricao.getText());
+        stmt.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Prioridade salva com sucesso.");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage());
+    }
+}
+
+private void alterarPrioridade() {
+    try (Connection conn = Conexao.connect()) {
+        String sql = "UPDATE prioridade SET descricao = ? WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, txtDescricao.getText());
+        stmt.setInt(2, Integer.parseInt(txtId.getText()));
+        stmt.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Prioridade alterada.");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao alterar: " + ex.getMessage());
+    }
+}
+
+private void excluirPrioridade() {
+    try (Connection conn = Conexao.connect()) {
+        String sql = "DELETE FROM prioridade WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, Integer.parseInt(txtId.getText()));
+        stmt.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Prioridade excluída.");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao excluir: " + ex.getMessage());
+    }
+}
+
+private void pesquisarPrioridade() {
+    try (Connection conn = Conexao.connect()) {
+        String sql = "SELECT * FROM prioridade WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, Integer.parseInt(txtId.getText()));
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            txtDescricao.setText(rs.getString("descricao"));
+        } else {
+            JOptionPane.showMessageDialog(this, "Prioridade não encontrada.");
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Erro ao pesquisar: " + ex.getMessage());
+    }
+}
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new TelaPrioridade().setVisible(true));
+    }
 }

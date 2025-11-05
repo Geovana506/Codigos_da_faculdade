@@ -1,66 +1,140 @@
 import java.awt.*;
+import java.sql.*;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
 public class TelaResponsavel extends JFrame {
-
     private JTextField txtId;
     private JTextField txtNome;
-    private JTable tabelaResponsaveis;
+    private JButton btnSalvar;
+    private JButton btnAlterar; 
+    private JButton btnExcluir; 
+    private JButton btnPesquisar;
+    private JButton btnSair;
 
-    public TelaResponsavel() {
-        super("Gerenciamento de Responsáveis");
+    public TelaResponsavel(){
+        setTitle("Cadastro de Responsável");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 400);
+        setSize(400,300);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(10, 10));
+        setVisible(true);
+        setLayout(new GridLayout(6, 2, 10, 10));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // --- Painel Superior (Formulário e Ações) ---
-        JPanel pnlSuperior = new JPanel(new BorderLayout(10, 10));
+        //Campo ID
+        JLabel lblId = new JLabel("ID:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(lblId, gbc);
+        txtId = new JTextField();
+        gbc.gridx = 1; 
+        gbc.gridy = 0;
+        add(txtId, gbc);
 
-        // Formulário (GridLayout 2x2)
-        JPanel pnlFormulario = new JPanel(new GridLayout(2, 2, 5, 5));
-        txtId = new JTextField(5);
-        txtId.setEditable(false);
-        txtNome = new JTextField(20);
+        //Campo Nome
+        JLabel lblDescricao = new JLabel("Nome");
+        gbc.gridx = 0; 
+        gbc.gridy = 2;
+        add(lblDescricao, gbc);
+        txtNome = new JTextField();
+        gbc.gridx = 1; 
+        gbc.gridy = 2;
+        add(txtNome, gbc);
 
-        pnlFormulario.add(new JLabel("ID:"));
-        pnlFormulario.add(txtId);
-        pnlFormulario.add(new JLabel("Nome:"));
-        pnlFormulario.add(txtNome);
+        //Painel de Botões
+        JPanel painelBotoes = new JPanel();
+        btnSalvar = new JButton("Salvar");
+        btnPesquisar = new JButton("Pesquisar");
+        btnAlterar = new JButton("Alterar");
+        btnExcluir = new JButton("Excluir");
+        btnSair = new JButton("Sair");
 
-        // Botões de Ação
-        JPanel pnlBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        JButton btnSalvar = new JButton("Salvar");
-        JButton btnExcluir = new JButton("Excluir");
-        JButton btnLimpar = new JButton("Limpar Campos");
-        pnlBotoes.add(btnSalvar);
-        pnlBotoes.add(btnExcluir);
-        pnlBotoes.add(btnLimpar);
+        painelBotoes.add(btnSalvar);
+        painelBotoes.add(btnPesquisar);
+        painelBotoes.add(btnAlterar);
+        painelBotoes.add(btnExcluir);
+        painelBotoes.add(btnSair);
 
-        pnlSuperior.add(pnlFormulario, BorderLayout.NORTH);
-        pnlSuperior.add(pnlBotoes, BorderLayout.CENTER);
-        add(pnlSuperior, BorderLayout.NORTH);
+        gbc.gridwidth = 2;
+        gbc.gridx = 0; 
+        gbc.gridy = 6;
+        add(painelBotoes, gbc);
 
-        // --- Pesquisa e Listagem (Centro) ---
-        JPanel pnlListagem = new JPanel(new BorderLayout(5, 5));
+        btnSalvar.addActionListener(e -> salvarResponsavel());
+        btnPesquisar.addActionListener(e -> pesquisarResponsavel());
+        btnAlterar.addActionListener(e -> alterarResponsavel());
+        btnExcluir.addActionListener(e -> excluirResponsavel());
+        btnSair.addActionListener(e -> dispose());
+    }
 
-        // Painel de Pesquisa
-        JPanel pnlPesquisa = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField txtPesquisa = new JTextField(15);
-        JButton btnPesquisar = new JButton("Pesquisar");
-        pnlPesquisa.add(new JLabel("Buscar Nome:"));
-        pnlPesquisa.add(txtPesquisa);
-        pnlPesquisa.add(btnPesquisar);
-        pnlListagem.add(pnlPesquisa, BorderLayout.NORTH);
+    private void salvarResponsavel() {
+        try (Connection conn = Conexao.connect()) {
+            String sql = "INSERT INTO responsavel (id, nome) VALUES (?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, Integer.parseInt(txtId.getText()));
+            stmt.setString(2, txtNome.getText());
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Responsável salvo com sucesso!");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage());
+        }
+    }
 
-        // Tabela de Resultados
-        String[] colunas = {"ID", "Nome"};
-        DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
-        tabelaResponsaveis = new JTable(modeloTabela);
-        JScrollPane scrollPane = new JScrollPane(tabelaResponsaveis);
-        pnlListagem.add(scrollPane, BorderLayout.CENTER);
+    private void alterarResponsavel() {
+        try (Connection conn = Conexao.connect()) {
+            String sql = "UPDATE responsavel SET nome = ? WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, txtNome.getText());
+            stmt.setInt(2, Integer.parseInt(txtId.getText()));
+            int linhas = stmt.executeUpdate();
 
-        add(pnlListagem, BorderLayout.CENTER);
+            if (linhas > 0) {
+                JOptionPane.showMessageDialog(this, "Responsável alterado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Nenhum registro encontrado com esse ID.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao alterar: " + ex.getMessage());
+        }
+    }
+
+    private void excluirResponsavel() {
+        try (Connection conn = Conexao.connect()) {
+            String sql = "DELETE FROM responsavel WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, Integer.parseInt(txtId.getText()));
+            int linhas = stmt.executeUpdate();
+
+            if (linhas > 0) {
+                JOptionPane.showMessageDialog(this, "Responsável excluído com sucesso!");
+                txtId.setText("");
+                txtNome.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Nenhum registro encontrado com esse ID.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao excluir: " + ex.getMessage());
+        }
+    }
+
+    private void pesquisarResponsavel() {
+        try (Connection conn = Conexao.connect()) {
+            String sql = "SELECT * FROM responsavel WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, Integer.parseInt(txtId.getText()));
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                txtNome.setText(rs.getString("nome"));
+            } else {
+                JOptionPane.showMessageDialog(this, "Responsável não encontrado!");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao pesquisar: " + ex.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new TelaResponsavel().setVisible(true));
     }
 }

@@ -1,18 +1,31 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Conexao {
+    private static final String URL = "jdbc:postgresql://localhost:5432/bancoteste";
+    private static final String USER = "root";
+    private static final String PASSWORD = "G123456789";
 
-    private static final String URL = "jdbc:mysql://localhost:3306/lista_tarefas_db";
-    private static final String USER = "geovana";
-    private static final String PASSWORD = "josefina"; // altere para sua senha
-
-    public static Connection conectar() {
+    public static Connection connect() {
+        Connection conn = null;
         try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (Exception e) {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            System.out.println("Conectado ao PostgreSQL!");
+        } catch (SQLException e) {
             System.out.println("Erro ao conectar: " + e.getMessage());
-            return null;
+        }
+        return conn;
+    }
+
+    public static void main(String[] args) {
+        Connection conn = connect();
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
         }
     }
 }
