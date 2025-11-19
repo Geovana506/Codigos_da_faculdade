@@ -4,8 +4,8 @@ import java.sql.SQLException;
 
 public class Conexao {
     private static final String URL = "jdbc:postgresql://localhost:5432/bancoteste";
-    private static final String USER = "root";
-    private static final String PASSWORD = "G123456789";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "postclgres";
 
     public static Connection connect() {
         Connection conn = null;
