@@ -5,14 +5,15 @@ import java.sql.SQLException;
 public class Conexao {
     private static final String URL = "jdbc:postgresql://localhost:5432/bancoteste";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "postclgres";
+    private static final String PASSWORD = "postgres";
 
     public static Connection connect() {
         Connection conn = null;
         try {
+            
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Conectado ao PostgreSQL!");
-        } catch (SQLException e) {
+       } catch (SQLException e) {
             System.out.println("Erro ao conectar: " + e.getMessage());
         }
         return conn;
