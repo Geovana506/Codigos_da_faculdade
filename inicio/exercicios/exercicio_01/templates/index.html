@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temperatura</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+<body class="container">
+
+<h2>🌡 Conversor de Temperatura</h2>
+
+<form method="post">
+    <input type="number" step="any" name="celsius" placeholder="Digite °C" required>
+    <button type="submit">Converter</button>
+</form>
+
+{% if resultado %}
+<p>{{ resultado }}</p>
+{% endif %}
+
+{% if erro %}
+<p style="color:red">{{ erro }}</p>
+{% endif %}
+
+</body>
+</html>

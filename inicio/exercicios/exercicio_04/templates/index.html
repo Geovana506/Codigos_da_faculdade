@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Juros</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+<body class="container">
+
+<h2>📈 Juros</h2>
+
+<h4>Simples</h4>
+<form method="post">
+    <input type="hidden" name="tipo" value="simples">
+    <input type="number" name="capital" placeholder="Capital" required>
+    <input type="number" name="taxa" placeholder="Taxa %" required>
+    <input type="number" name="tempo" placeholder="Meses" required>
+    <button type="submit">Calcular</button>
+</form>
+
+<h4>Compostos</h4>
+<form method="post">
+    <input type="hidden" name="tipo" value="compostos">
+    <input type="number" name="capital" placeholder="Capital" required>
+    <input type="number" name="taxa" placeholder="Taxa %" required>
+    <input type="number" name="tempo" placeholder="Meses" required>
+    <button type="submit">Calcular</button>
+</form>
+
+{% if resultado %}
+<p>{{ resultado }}</p>
+{% endif %}
+
+{% if erro %}
+<p style="color:red">{{ erro }}</p>
+{% endif %}
+
+</body>
+</html>

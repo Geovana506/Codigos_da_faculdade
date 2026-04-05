@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Número</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+<body class="container">
+
+<h2>🔢 Paridade e Sinal</h2>
+
+<form method="post">
+    <input type="number" name="numero" required>
+    <button type="submit">Verificar</button>
+</form>
+
+{% if resultado %}
+<p>{{ resultado }}</p>
+{% endif %}
+
+</body>
+</html>

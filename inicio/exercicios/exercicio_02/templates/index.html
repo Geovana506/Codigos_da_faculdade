@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Desconto</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+<body class="container">
+
+<h2>💸 Calculadora de Desconto</h2>
+
+<form method="post">
+    <input type="number" name="preco" placeholder="Preço" required>
+    <input type="number" name="desconto" placeholder="Desconto %" required>
+    <button type="submit">Calcular</button>
+</form>
+
+{% if resultado %}
+<p>Desconto: R$ {{ resultado.desconto }}</p>
+<p>Final: R$ {{ resultado.final }}</p>
+{% endif %}
+
+{% if erro %}
+<p style="color:red">{{ erro }}</p>
+{% endif %}
+
+</body>
+</html>
