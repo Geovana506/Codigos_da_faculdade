@@ -1,0 +1,12 @@
+vendas\dao\FornecedorDAO.class
+vendas\dao\ClienteDAO.class
+vendas\model\Produto.class
+vendas\controller\Vendascontroller.class
+vendas\model\Fornecedor.class
+vendas\model\Venda.class
+vendas\util\Conexao.class
+vendas\dao\ProdutoDAO.class
+vendas\model\Categoria.class
+vendas\model\Cliente.class
+vendas\view\Main.class
+vendas\dao\VendaDAO.class

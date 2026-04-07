@@ -1,4 +1,4 @@
-package util;
+package primeiro_projeto_p2.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
