@@ -22,8 +22,6 @@ public class Main {
         Vendascontroller vendascontroller = new Vendascontroller();
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
-         System.out.println("\nSeja bem-vindo ao Sistema de Gestão de Vendas da Secomp!\n");
-
         while (opcao != 0) {
 
             System.out.println("     VENDAS         ");
