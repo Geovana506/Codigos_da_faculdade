@@ -69,4 +69,12 @@ public class Vendascontroller {
             return false;
         }
     }
+
+    public VendaDAO getVendaDAO() {
+        return vendaDAO;
+    }
+
+    public void setVendaDAO(VendaDAO vendaDAO) {
+        this.vendaDAO = vendaDAO;
+    }
 }
